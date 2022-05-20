@@ -23,14 +23,12 @@ const App = () => {
           <div className="overflow-hidden">
             <div className="flex flex-row overflow-x-scroll">
               {companies.map((company) => (
-                <section
-                  key={company.id}
-                  className="flex-shrink-0 w-1/3 px-8 border"
-                >
+                <section key={company.id} className="flex-shrink-0 w-1/3 px-8">
                   <CompanyColumn
                     id={company.id}
                     name={company.name ?? ""}
                     type={company.type ?? "-"}
+                    timeSlots={company.time_slots}
                   />
                 </section>
               ))}
