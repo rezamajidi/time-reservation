@@ -1,7 +1,18 @@
 import { render } from "react-dom";
-import { StrictMode } from "react";
+import { useState, useEffect, StrictMode } from "react";
+import CompanyColumn from "./components/CompanyColumn.jsx";
 
 const App = () => {
+  const [companies, setCompanies] = useState([]);
+  const fetchCompanyTimeSlots = async () => {
+    const res = await fetch("http://localhost:3000/timeslots").then(
+      (response) => response.json()
+    );
+    setCompanies(res);
+  };
+  useEffect(() => {
+    fetchCompanyTimeSlots();
+  }, []);
   return (
     <StrictMode>
       <div className="min-h-screen pt-12 bg-gray-200">
@@ -11,9 +22,18 @@ const App = () => {
           </h1>
           <div className="overflow-hidden">
             <div className="flex flex-row overflow-x-scroll">
-              <section className="flex-shrink-0 w-1/3 border">1</section>
-              <section className="flex-shrink-0 w-1/3 border">2</section>
-              <section className="flex-shrink-0 w-1/3 border">3</section>
+              {companies.map((company) => (
+                <section
+                  key={company.id}
+                  className="flex-shrink-0 w-1/3 px-8 border"
+                >
+                  <CompanyColumn
+                    id={company.id}
+                    name={company.name ?? ""}
+                    type={company.type ?? "-"}
+                  />
+                </section>
+              ))}
             </div>
           </div>
         </div>
