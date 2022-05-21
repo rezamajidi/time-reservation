@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { groupTimesByEndDate } from "../helpers/utils";
-import { format } from "date-fns";
-import isEqual from "date-fns/isEqual";
+import { format, isEqual, areIntervalsOverlapping } from "date-fns";
 import CompanyHeader from "./CompanyHeader.jsx";
 import TimeSlot from "./TimeSlot.jsx";
 import CompanyContext from "../CompanyContext";
@@ -9,6 +8,7 @@ import CompanyContext from "../CompanyContext";
 const CompanyColumn = ({ id, name, type, timeSlots }) => {
   const { companies, setCompanies } = useContext(CompanyContext);
   const thisCompany = companies.find((company) => company.id === id);
+
   const ifTimeSlotEqualToSelected = (start, end) => {
     if (!thisCompany.selected_slot) {
       return false;
@@ -18,6 +18,20 @@ const CompanyColumn = ({ id, name, type, timeSlots }) => {
       isEqual(new Date(end), thisCompany.selected_slot.end)
     );
   };
+
+  const isTimeOverlapWithSelectedTimes = (start, end) => {
+    const selectedSlots = companies
+      .filter((company) => company.selected_slot)
+      .map((company) => company.selected_slot);
+
+    return selectedSlots.some((timeSlot) => {
+      return areIntervalsOverlapping(
+        { start: new Date(start), end: new Date(end) },
+        { start: timeSlot.start, end: timeSlot.end }
+      );
+    });
+  };
+
   const toggleTimeSlot = ({ start, end }) => {
     const thisCompanyIndex = companies.findIndex((com) => com.id === id);
     const newCompanies = [...companies];
@@ -31,6 +45,7 @@ const CompanyColumn = ({ id, name, type, timeSlots }) => {
     }
     setCompanies(newCompanies);
   };
+
   return (
     <div>
       <CompanyHeader
@@ -74,12 +89,21 @@ const CompanyColumn = ({ id, name, type, timeSlots }) => {
                         )
                       }
                       disabled={
-                        thisCompany.selected_slot &&
-                        !ifTimeSlotEqualToSelected(
-                          date.start_time,
-                          date.end_time
-                        )
+                        (thisCompany.selected_slot &&
+                          !ifTimeSlotEqualToSelected(
+                            date.start_time,
+                            date.end_time
+                          )) ||
+                        (!thisCompany.selected_slot &&
+                          isTimeOverlapWithSelectedTimes(
+                            date.start_time,
+                            date.end_time
+                          ))
                       }
+                      label={isTimeOverlapWithSelectedTimes(
+                        date.start_time,
+                        date.end_time
+                      )}
                       onToggle={toggleTimeSlot}
                       start={date.start_time}
                       end={date.end_time}
