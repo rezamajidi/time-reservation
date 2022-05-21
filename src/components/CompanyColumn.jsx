@@ -59,7 +59,7 @@ const CompanyColumn = ({ id, name, type, timeSlots }) => {
         <div className="h-full pb-12 overflow-y-auto">
           {Object.keys(groupTimesByEndDate(timeSlots)).map((key, index) => (
             <div className="mb-1" key={index}>
-              <p className="sticky top-0 z-10 p-4 mb-2 text-xl text-center text-gray-800 border border-indigo-100 rounded-sm bg-indigo-50">
+              <p className="sticky top-0 z-50 p-4 mb-2 text-xl text-center text-gray-800 border border-indigo-100 rounded-sm bg-indigo-50">
                 {format(new Date(key), "ccc, MMM do")}
               </p>
               <ul>
@@ -69,6 +69,13 @@ const CompanyColumn = ({ id, name, type, timeSlots }) => {
                       selected={
                         thisCompany.selected_slot &&
                         ifTimeSlotEqualToSelected(
+                          date.start_time,
+                          date.end_time
+                        )
+                      }
+                      disabled={
+                        thisCompany.selected_slot &&
+                        !ifTimeSlotEqualToSelected(
                           date.start_time,
                           date.end_time
                         )
