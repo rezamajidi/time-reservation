@@ -17,6 +17,5 @@ export const groupTimesByEndDate = (timeSlotsArray) => {
     (a[estKey] ? a[estKey] : (a[estKey] = null || [])).push(e);
     return a;
   }, {});
-  console.log(outObject);
   return outObject;
 };

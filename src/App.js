@@ -1,6 +1,7 @@
 import { render } from "react-dom";
 import { useState, useEffect, StrictMode } from "react";
 import CompanyColumn from "./components/CompanyColumn.jsx";
+import CompanyContext from "./CompanyContext";
 
 const App = () => {
   const [companies, setCompanies] = useState([]);
@@ -15,27 +16,37 @@ const App = () => {
   }, []);
   return (
     <StrictMode>
-      <div className="min-h-screen pt-12 bg-gray-200">
-        <div className="container px-4 py-8 mx-auto rounded-md shadow-sm bg-gray-50">
-          <h1 className="inline-block pb-2 mb-8 text-2xl font-bold border-b-4">
-            Time Reservation
-          </h1>
-          <div className="overflow-hidden">
-            <div className="flex flex-row overflow-x-scroll">
-              {companies.map((company) => (
-                <section key={company.id} className="flex-shrink-0 w-1/3 px-8">
-                  <CompanyColumn
-                    id={company.id}
-                    name={company.name ?? ""}
-                    type={company.type ?? "-"}
-                    timeSlots={company.time_slots}
-                  />
-                </section>
-              ))}
+      <CompanyContext.Provider value={{ companies, setCompanies }}>
+        <div className="min-h-screen pt-12 bg-gray-200">
+          <div className="container px-4 py-8 mx-auto rounded-md shadow-sm bg-gray-50">
+            <header className="flex items-baseline pb-2 mb-8 border-b-4">
+              <h1 className="text-2xl font-bold ">Time Reservation</h1>
+              <p className="ml-2 text-xs text-gray-700">
+                All times are in your local time
+              </p>
+              <p></p>
+            </header>
+            <div className="overflow-hidden">
+              <div className="flex flex-row overflow-x-scroll">
+                {companies.length &&
+                  companies.map((company) => (
+                    <section
+                      key={company.id}
+                      className="flex-shrink-0 w-1/3 px-8"
+                    >
+                      <CompanyColumn
+                        id={company.id}
+                        name={company.name ?? ""}
+                        type={company.type ?? "-"}
+                        timeSlots={company.time_slots}
+                      />
+                    </section>
+                  ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </CompanyContext.Provider>
     </StrictMode>
   );
 };
