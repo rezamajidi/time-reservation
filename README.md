@@ -16,3 +16,7 @@
   - it usually runs on `http://localhost:3000` so copy this as a `API_BASE_URL` to `env` file.
   - You can also use the API served on [glitch](https://glitch.com/) with url `https://cypress-wholesale-pea.glitch.me` as the `API_BASE_URL`
 - Run `npm run dev` to start the project on local development
+
+## Demo
+
+You can check the project live on [netlify](https://time-reservation.netlify.app/)
