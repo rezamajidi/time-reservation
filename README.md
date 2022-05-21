@@ -1,6 +1,6 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9a806d3e-f886-4b00-810a-79190f4a348b/deploy-status)](https://app.netlify.com/sites/time-reservation/deploys)
 
-# Timer Reservation app built with React ⚛️
+# Time Reservation app built with React ⚛️
 
 #### API served with `json-server`
 
