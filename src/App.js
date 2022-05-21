@@ -19,10 +19,12 @@ const App = () => {
     <StrictMode>
       <div className="min-h-screen pt-12 bg-gray-200">
         <div className="container px-4 py-8 mx-auto rounded-md shadow-sm bg-gray-50">
-          <header className="flex items-baseline pb-2 mb-8 border-b-4">
-            <h1 className="text-2xl font-bold ">Time Reservation</h1>
+          <header className="flex flex-col pb-2 mb-8 border-b-4 md:items-baseline md:flex-row">
+            <h1 className="mb-2 mr-2 text-2xl font-bold md:mb-0">
+              Time Reservation
+            </h1>
             <div className="flex items-center flex-1">
-              <p className="ml-2 text-xs text-gray-700">
+              <p className="text-xs text-gray-700">
                 All times are in your local time
               </p>
               <div className="ml-auto">
@@ -37,7 +39,7 @@ const App = () => {
                   companies.map((company) => (
                     <section
                       key={company.id}
-                      className="flex-shrink-0 w-1/3 px-8"
+                      className="flex-shrink-0 w-full px-4 lg:px-8 sm:w-1/2 md:w-1/3"
                     >
                       <CompanyColumn
                         id={company.id}
