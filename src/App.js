@@ -7,7 +7,7 @@ import CurrentLocalTime from "./components/CurrentLocalTime.jsx";
 const App = () => {
   const [companies, setCompanies] = useState([]);
   const fetchCompanyTimeSlots = async () => {
-    const res = await fetch("http://localhost:3000/timeslots").then(
+    const res = await fetch(`${process.env.API_BASE_URL}/timeslots`).then(
       (response) => response.json()
     );
     setCompanies(res);
@@ -35,20 +35,19 @@ const App = () => {
           <CompanyContext.Provider value={{ companies, setCompanies }}>
             <div className="overflow-hidden">
               <div className="flex flex-row overflow-x-scroll">
-                {companies.length &&
-                  companies.map((company) => (
-                    <section
-                      key={company.id}
-                      className="flex-shrink-0 w-full px-4 lg:px-8 sm:w-1/2 md:w-1/3"
-                    >
-                      <CompanyColumn
-                        id={company.id}
-                        name={company.name ?? ""}
-                        type={company.type ?? "-"}
-                        timeSlots={company.time_slots}
-                      />
-                    </section>
-                  ))}
+                {companies.map((company) => (
+                  <section
+                    key={company.id}
+                    className="flex-shrink-0 w-full px-4 lg:px-8 sm:w-1/2 md:w-1/3"
+                  >
+                    <CompanyColumn
+                      id={company.id}
+                      name={company.name ?? ""}
+                      type={company.type ?? "-"}
+                      timeSlots={company.time_slots}
+                    />
+                  </section>
+                ))}
               </div>
             </div>
           </CompanyContext.Provider>
