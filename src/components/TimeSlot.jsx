@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { format } from "date-fns";
 
 const TimeSlot = ({ start, end, disabled, selected, onToggle }) => {
@@ -27,4 +28,14 @@ const TimeSlot = ({ start, end, disabled, selected, onToggle }) => {
   );
 };
 
-export default TimeSlot;
+function slotPropsAreEqual(prevSlot, nextSlot) {
+  return (
+    prevSlot.start === nextSlot.start &&
+    prevSlot.end === nextSlot.end &&
+    prevSlot.disabled === nextSlot.disabled &&
+    prevSlot.selected === nextSlot.selected
+  );
+}
+const MemoizedTimeSlot = memo(TimeSlot, slotPropsAreEqual);
+
+export default MemoizedTimeSlot;
